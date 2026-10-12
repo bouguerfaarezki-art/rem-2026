@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz REM · AMIT</title>
+  <meta name="description" content="Quiz de révision du titre professionnel REM : marchandisage, juridique, gestion de stock et calculs de l’examen.">
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="#" class="brand" id="homeLink" aria-label="Accueil">
+      <img src="logo.png" alt="Academy of Management and Intelligent Technology">
+    </a>
+    <nav>
+      <button class="navbtn" data-go="home">Accueil</button>
+      <button class="navbtn" data-go="formules">Formules</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ACCUEIL -->
+    <section id="view-home" class="view">
+      <div class="hero">
+        <h1>Quiz de révision <span class="gold">REM</span></h1>
+        <p>Responsable d’établissement marchand · Titre professionnel niveau 6</p>
+      </div>
+
+      <div class="count">
+        <span>Nombre de questions par quiz :</span>
+        <div class="seg" id="countSeg">
+          <button data-n="10" class="on">10</button>
+          <button data-n="20">20</button>
+          <button data-n="0">Toutes</button>
+        </div>
+      </div>
+
+      <h2 class="section-title">Réviser par thème</h2>
+      <div class="grid" id="themeGrid"></div>
+
+      <h2 class="section-title">S’entraîner</h2>
+      <div class="grid">
+        <button class="card special" id="examBtn">
+          <span class="icon">⏱️</span>
+          <span class="card-title">Examen blanc</span>
+          <span class="card-sub">30 questions de tous les thèmes en 30 minutes. Correction à la fin.</span>
+          <span class="best" id="bestExam"></span>
+        </button>
+        <button class="card special" id="errorsBtn">
+          <span class="icon">🔁</span>
+          <span class="card-title">Revoir mes erreurs</span>
+          <span class="card-sub" id="errorsSub"></span>
+        </button>
+        <button class="card special" data-go="formules">
+          <span class="icon">📐</span>
+          <span class="card-title">Fiche formules</span>
+          <span class="card-sub">Toutes les formules à connaître pour l’examen.</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="view-quiz" class="view" hidden>
+      <div class="quizhead">
+        <span id="quizTheme"></span>
+        <span id="quizTimer" class="timer" hidden></span>
+        <span id="quizCount"></span>
+      </div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="qcard">
+        <p class="qtag" id="qTag"></p>
+        <h2 id="qText"></h2>
+        <div id="qAnswers"></div>
+        <div id="feedback" class="feedback" hidden></div>
+        <div class="actions">
+          <button id="quitBtn" class="btn ghost">Arrêter</button>
+          <button id="nextBtn" class="btn" hidden>Suivant</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RÉSULTAT -->
+    <section id="view-result" class="view" hidden>
+      <div class="scorebox">
+        <p id="resTitle"></p>
+        <div class="score"><span id="resScore"></span><small>/20</small></div>
+        <p id="resDetail"></p>
+        <p id="resMsg" class="resmsg"></p>
+      </div>
+      <div id="resThemes" class="resthemes"></div>
+      <div class="actions center">
+        <button class="btn ghost" data-go="home">Accueil</button>
+        <button class="btn" id="replayBtn">Rejouer</button>
+      </div>
+      <h2 class="section-title" id="reviewTitle">Correction</h2>
+      <div id="review"></div>
+    </section>
+
+    <!-- FORMULES -->
+    <section id="view-formules" class="view formules" hidden>
+      <h1>Fiche formules</h1>
+      <p class="muted">Tirées des fiches « Gestion de stock » et « Les principaux calculs de l’examen ».</p>
+
+      <h2>Prix, marges et TVA</h2>
+      <table>
+        <tr><td>Marge brute</td><td>PV HT − PA HT</td></tr>
+        <tr><td>Taux de marque</td><td>(PV HT − PA HT) × 100 ÷ PV HT</td></tr>
+        <tr><td>Taux de marge</td><td>(PV HT − PA HT) × 100 ÷ PA HT</td></tr>
+        <tr><td>PV HT (avec taux de marge)</td><td>PA HT × (1 + taux de marge)</td></tr>
+        <tr><td>PV HT (avec taux de marque)</td><td>PA HT ÷ (1 − taux de marque)</td></tr>
+        <tr><td>PV TTC</td><td>PV HT × (1 + TVA)</td></tr>
+        <tr><td>HT</td><td>TTC ÷ (1 + TVA)</td></tr>
+        <tr><td>Coefficient multiplicateur</td><td>PV TTC ÷ PA HT (coef. HT = PV HT ÷ PA HT)</td></tr>
+        <tr><td>Marque → marge</td><td>tx marge = tx marque ÷ (1 − tx marque)</td></tr>
+        <tr><td>Marge → marque</td><td>tx marque = tx marge ÷ (1 + tx marge)</td></tr>
+        <tr><td>Contrôle</td><td>Toujours : taux de marque &lt; taux de marge</td></tr>
+        <tr><td>TVA</td><td>20 % (normal, jouets, DPH) · 10 % · 5,5 % (alimentation, livres) · 2,1 % (médicaments remboursables, presse)</td></tr>
+      </table>
+
+      <h2>Stocks</h2>
+      <table>
+        <tr><td>Stock final</td><td>SI + entrées − sorties</td></tr>
+        <tr><td>Stock moyen</td><td>(SI + SF) ÷ 2</td></tr>
+        <tr><td>Coefficient de rotation</td><td>Quantités vendues ÷ stock moyen (€ ÷ € ou unités ÷ unités)</td></tr>
+        <tr><td>Couverture</td><td>Stock ÷ ventes moyennes par jour</td></tr>
+        <tr><td>Stock minimal (Sm)</td><td>VMJ × délai de livraison</td></tr>
+        <tr><td>Stock de sécurité (SS)</td><td>Sm + VMH</td></tr>
+        <tr><td>Stock d’alerte (SA)</td><td>Sm + SS (déclenche la commande)</td></tr>
+        <tr><td>Tampon standard</td><td>SA + SS</td></tr>
+        <tr><td>Taux d’écoulement</td><td>Quantités vendues ÷ quantités achetées</td></tr>
+        <tr><td>Engagement à l’achat</td><td>Quantités prévues × PA HT</td></tr>
+        <tr><td>Engagement à la vente TTC</td><td>Quantités prévues × PV TTC soldé</td></tr>
+      </table>
+
+      <h2>Commande et cadencier</h2>
+      <table>
+        <tr><td>Besoin</td><td>VMH × (période + délai) + stock de sécurité + stock de présentation + click &amp; collect</td></tr>
+        <tr><td>Commande arithmétique</td><td>Besoin − stock restant réel − reliquats confirmés</td></tr>
+        <tr><td>Commande arrondie</td><td>ARRONDI.SUP(commande ÷ PCB ; 0) × PCB</td></tr>
+        <tr><td>Nombre de colis</td><td>Commande arrondie ÷ PCB</td></tr>
+        <tr><td>Ventes (cadencier)</td><td>Stock précédent + livré − stock compté</td></tr>
+      </table>
+
+      <h2>Démarque inconnue</h2>
+      <table>
+        <tr><td>PA des marchandises vendues</td><td>Stock initial + achats − stock final</td></tr>
+        <tr><td>CA HT théorique</td><td>PA HT vendu × coefficient HT</td></tr>
+        <tr><td>DI en €</td><td>CA HT théorique − CA HT réel</td></tr>
+        <tr><td>DI en %</td><td>DI × 100 ÷ CA HT réel</td></tr>
+      </table>
+
+      <h2>Zone de chalandise</h2>
+      <table>
+        <tr><td>Nombre de ménages</td><td>Habitants ÷ habitants par ménage (arrondi supérieur)</td></tr>
+        <tr><td>Ménages par CSP</td><td>Nb de ménages × % de la CSP</td></tr>
+        <tr><td>Revenu disponible</td><td>Ménages de la CSP × revenu annuel</td></tr>
+        <tr><td>Dépenses du poste / du produit</td><td>Revenu × % du poste, puis × % du produit</td></tr>
+        <tr><td>Évasion commerciale</td><td>Dépenses du produit × taux d’évasion</td></tr>
+        <tr><td>CA de la concurrence</td><td>Revenu restant × taux d’emprise</td></tr>
+        <tr><td>CA potentiel</td><td>Revenu restant − CA de la concurrence</td></tr>
+        <tr><td>Part de marché</td><td>CA du magasin ÷ dépenses du produit × 100</td></tr>
+      </table>
+
+      <h2>Indicateurs</h2>
+      <table>
+        <tr><td>Évolution</td><td>(Réalisé − N-1) ÷ N-1 × 100</td></tr>
+        <tr><td>Indice de progression</td><td>Réalisé ÷ objectif × 100</td></tr>
+        <tr><td>Panier moyen</td><td>CA ÷ nb de passages caisse</td></tr>
+        <tr><td>Panier article</td><td>Nb d’articles ÷ nb de passages caisse</td></tr>
+        <tr><td>Taux de transformation</td><td>Acheteurs ÷ visiteurs × 100</td></tr>
+        <tr><td>Indice de passage</td><td>Entrées rayon ÷ entrées magasin</td></tr>
+        <tr><td>Indice d’achat</td><td>Passages caisse rayon ÷ entrées magasin</td></tr>
+        <tr><td>Indice d’attractivité</td><td>Indice d’achat ÷ indice de passage</td></tr>
+        <tr><td>CA au mètre</td><td>CA ÷ mètres de linéaire</td></tr>
+      </table>
+
+      <h2>Linéaire et implantation</h2>
+      <table>
+        <tr><td>COS</td><td>Mètres linéaires au sol ÷ surface de vente × 100</td></tr>
+        <tr><td>ISCA · ISMB · ISV</td><td>% CA (ou % marge, ou % ventes) ÷ % linéaire</td></tr>
+        <tr><td>IS moyen</td><td>Moyenne des IS · &gt; 1 à l’étroit · &lt; 1 trop de place</td></tr>
+        <tr><td>Linéaire optimal</td><td>Linéaire actuel × ISM</td></tr>
+        <tr><td>Linéaire développé</td><td>Linéaire au sol × nombre de niveaux</td></tr>
+        <tr><td>Capacité</td><td>Facings × produits en profondeur × gerbage</td></tr>
+        <tr><td>Surface théorique</td><td>Surface de vente × quote-part du CA de l’univers</td></tr>
+        <tr><td>Pareto / ABC</td><td>Trier par CA décroissant, cumuler : A ≈ 80 %, B jusqu’à 95 %, C le reste</td></tr>
+      </table>
+    </section>
+  </main>
+
+  <footer>Quiz de révision · Titre pro REM · d’après les fiches de Bruno Lenne (ACT Formation 2026)</footer>
+
+  <script src="questions.js"></script>
+  <script src="calculs.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
